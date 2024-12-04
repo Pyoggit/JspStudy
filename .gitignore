@@ -1,40 +1,32 @@
+# Compiled class files
 *.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
 # Package Files #
 *.jar
 *.war
 *.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# VM crash logs
 hs_err_pid*
 
-# netbeans
-nbproject/private/
-build/
-nbbuild/
-
-# the dist file could make some problems
-# dist/
-nbdist/
-nbactions.xml
-nb-configuration.xml
-.nb-gradle/
+# IntelliJ
+.idea/
+*.iml
+*.iws
 
 # Eclipse
 .classpath
 .project
 .settings/
 
-# Intellij
-.idea/
-*.iml
-*.iws
-
-# Mac
-.DS_Store
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
 
 # Maven
 log/
@@ -45,3 +37,59 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 dependency-reduced-pom.xml
+
+# Gradle
+.gradle/
+build/
+
+# Java specific
+*.log
+*.class
+*.jar
+*.war
+*.ear
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# Tomcat specific
+wtpwebapps/
+
+# Local IDE settings
+.idea/
+*.iml
+*.ipr
+*.iws
+*.swp
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Others
+*.orig
+*.rej
+*.bak
+*.backup
+
+# Application specific
+*.sql   # SQL backups or dumps (optional, if used in project)
+
+# Ignore libraries directory
+src/main/webapp/WEB-INF/lib/
