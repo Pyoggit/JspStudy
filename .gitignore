@@ -1,32 +1,58 @@
-# Compiled class files
+/.metadata/
+# Created by https://www.toptal.com/developers/gitignore/api/java
+# Edit at https://www.toptal.com/developers/gitignore?templates=java
+
+### Java ###
+# Compiled class file or Properties
 *.class
+*.properties
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
 # Package Files #
 *.jar
 *.war
+*.nar
 *.ear
+*.zip
+*.tar.gz
+*.rar
 
-# VM crash logs
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+replay_pid*
 
-# IntelliJ
-.idea/
-*.iml
-*.iws
+# netbeans
+nbproject/private/
+build/
+nbbuild/
+
+# the dist file could make some problems
+# dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
 
 # Eclipse
 .classpath
 .project
 .settings/
 
-# NetBeans
-nbproject/private/
-build/
-nbbuild/
-nbdist/
-nbactions.xml
-nb-configuration.xml
-.nb-gradle/
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
 
 # Maven
 log/
@@ -38,61 +64,4 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 
-# Gradle
-.gradle/
-build/
-
-# Java specific
-*.log
-*.class
-*.jar
-*.war
-*.ear
-
-# VS Code
-.vscode/
-
-# macOS
-.DS_Store
-
-# Windows
-Thumbs.db
-ehthumbs.db
-desktop.ini
-
-# Linux
-*~
-
-# Tomcat specific
-wtpwebapps/
-
-# Local IDE settings
-.idea/
-*.iml
-*.ipr
-*.iws
-*.swp
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-*.bak
-*.swp
-*.swo
-
-# Others
-*.orig
-*.rej
-*.bak
-*.backup
-
-# Application specific
-*.sql   # SQL backups or dumps (optional, if used in project)
-
-# Ignore libraries directory
-src/main/webapp/WEB-INF/lib/
-
-# Database configuration
-src/main/resources/db.properties
+# End of https://www.toptal.com/developers/gitignore/api/java
