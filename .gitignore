@@ -93,3 +93,6 @@ wtpwebapps/
 
 # Ignore libraries directory
 src/main/webapp/WEB-INF/lib/
+
+# Database configuration
+src/main/resources/db.properties
