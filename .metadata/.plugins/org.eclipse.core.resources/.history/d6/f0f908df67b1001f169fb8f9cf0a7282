@@ -1,0 +1,95 @@
+package kr.co.dev.member;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "memberInsert", urlPatterns = { "/jspStudy/memberInsert" })
+public class MemberInsert extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    public MemberInsert() {
+        super();
+    }
+
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
+        String id = request.getParameter("id");
+        String pwd = request.getParameter("pwd");
+        String email = request.getParameter("email");
+        String name = request.getParameter("name");
+
+        if (id == null || id.trim().isEmpty() ||
+            pwd == null || pwd.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() ||
+            name == null || name.trim().isEmpty()) {
+            System.out.println("필수 입력 값이 비어 있습니다.");
+            response.getWriter().println("필수 입력 값을 모두 입력해주세요.");
+            return;
+        }
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        boolean successFlag = false;
+        String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+        String MEMBER_INSERT = "INSERT INTO MEMBER (NO, ID, PWD, EMAIL, NAME) "
+                             + "VALUES (MEMBER_SEQ.NEXTVAL, ?, ?, ?, ?)";
+
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con = DriverManager.getConnection(url, "webuser", "123456");
+            pstmt = con.prepareStatement(MEMBER_INSERT);
+
+            pstmt.setString(1, id);
+            pstmt.setString(2, pwd);
+            pstmt.setString(3, email);
+            pstmt.setString(4, name);
+
+            int count = pstmt.executeUpdate();
+            successFlag = (count != 0);
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("드라이버 로드 오류: " + e.toString());
+        } catch (SQLException e) {
+            System.out.println("SQL 오류: " + e.toString());
+            e.printStackTrace();
+            response.getWriter().println("SQL 오류: " + e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    System.out.println("Connection 닫기 오류: " + e.toString());
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println("PreparedStatement 닫기 오류: " + e.toString());
+                }
+            }
+        }
+
+        if (successFlag) {
+            System.out.println("회원가입 성공");
+            response.sendRedirect("/jspStudy/memberList");
+        } else {
+            System.out.println("회원가입 실패");
+            response.getWriter().println("회원가입에 실패했습니다.");
+        }
+    }
+}

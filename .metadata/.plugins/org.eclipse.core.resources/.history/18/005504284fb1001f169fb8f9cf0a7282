@@ -1,0 +1,104 @@
+package kr.co.dev.member;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "memberList", urlPatterns = { "/memberList" })
+public class MemberList extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    public MemberList() {
+        super();
+    }
+
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+        String user = "webuser";
+        String password = "123456";
+        String MEMBER_SELECT = "SELECT NO, ID, EMAIL, NAME, BIRTH_DATE, INTERESTS FROM MEMBER";
+
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con = DriverManager.getConnection(url, user, password);
+            pstmt = con.prepareStatement(MEMBER_SELECT);
+            rs = pstmt.executeQuery();
+
+            PrintWriter out = response.getWriter();
+            out.println("<html>");
+            out.println("<head><title>회원 목록</title></head>");
+            out.println("<body>");
+            out.println("<h1>회원 목록</h1>");
+            out.println("<table border='1' style='width: 100%; text-align: center;'>");
+            out.println("<tr>");
+            out.println("<th>회원 코드</th>");
+            out.println("<th>아이디</th>");
+            out.println("<th>이메일</th>");
+            out.println("<th>이름</th>");
+            out.println("<th>생년월일</th>");
+            out.println("<th>관심분야</th>");
+            out.println("</tr>");
+
+            while (rs.next()) {
+                out.println("<tr>");
+                out.println("<td>" + rs.getInt("NO") + "</td>");
+                out.println("<td>" + rs.getString("ID") + "</td>");
+                out.println("<td>" + rs.getString("EMAIL") + "</td>");
+                out.println("<td>" + rs.getString("NAME") + "</td>");
+                out.println("<td>" + rs.getDate("BIRTH_DATE") + "</td>");
+                out.println("<td>" + rs.getString("INTERESTS") + "</td>");
+                out.println("</tr>");
+            }
+
+            out.println("</table>");
+            out.println("</body>");
+            out.println("</html>");
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.toString());
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println(e.toString());
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    System.out.println(e.toString());
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    System.out.println(e.toString());
+                }
+            }
+        }
+    }
+}

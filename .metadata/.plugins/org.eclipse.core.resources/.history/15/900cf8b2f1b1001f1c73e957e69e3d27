@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>jspStudy</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>hello.do</display-name>
+    <servlet-name>hello.do</servlet-name>
+    <servlet-class>kr.co.dev.Hello</servlet-class>
+    <init-param>
+      <description>선생님</description>
+      <param-name>phone</param-name>
+      <param-value>010-2971-6589</param-value>
+    </init-param>
+    <init-param>
+      <description>사용자아이디</description>
+      <param-name>id</param-name>
+      <param-value>qwer1234</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hello.do</servlet-name>
+    <url-pattern>/hello.do</url-pattern>
+  </servlet-mapping>
+</web-app>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입</title>
+<link rel="stylesheet" href="./signup.css">
+</head>
+<body>
+	<form>
+		<table>
+			<thead>
+				<tr>
+					<th colspan="2">회원 기본 정보</th>
+				</tr>
+			</thead>
+			<tr>
+				<th class="title">아이디:</th>
+				<td><label for="id"><input type="text" name="id"
+						id="id"><i>4~12자의 영문 대소문자와 숫자로만 입력</i></label></td>
+			</tr>
+			<tr>
+				<th class="title">비밀번호:</th>
+				<td><label for="pwd"><input type="text" name="pwd"
+						id="pwd"><i>4~12자의 영문 대소문자와 숫자로만 입력</i></label></td>
+			</tr>
+			<tr>
+				<th class="title">비밀번호확인:</th>
+				<td><label for="pwdtest"></label><input type="text"
+					name="pwdtest" id="pwdtest"></td>
+			</tr>
+			<tr>
+				<th class="title">메일주소:</th>
+				<td><label for="email"></label><input type="text" name="email"
+					id="email"><i>ex) abcd@gmail.com</i></td>
+			</tr>
+			<tr>
+				<th class="title">이름:</th>
+				<td><label for="name"></label><input type="text" name="name"
+					id="name"></td>
+			</tr>
+		</table>
+
+		<footer>
+			<hr>
+			<button type="submit">회원 가입</button>
+			<button type="reset">다시 입력</button>
+		</footer>
+	</form>
+</body>
+</html>

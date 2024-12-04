@@ -1,0 +1,85 @@
+package kr.co.dev.login;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/registerLIstServlet.do")
+public class RegisterLIstServlet extends HttpServlet {
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html; Charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+
+		String id = request.getParameter("id");
+		String pwd = request.getParameter("pwd");
+		String email = request.getParameter("email");
+		String name = request.getParameter("name");
+		String birth = request.getParameter("birth");
+
+		// 데이터베이스 연결 및 INSERT 쿼리 수행 (JDBC 코드 예시)
+		try {
+		    // Oracle JDBC 드라이버를 로드
+		    Class.forName("oracle.jdbc.driver.OracleDriver");
+		    
+		    Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "yourUsername", "yourPassword");
+		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO REGISTER (ID, PWD, EMAIL, NAME, BIRTH) VALUES (?, ?, ?, ?, ?)");
+
+		    pstmt.setString(1, id);
+		    pstmt.setString(2, pwd);
+		    pstmt.setString(3, email);
+		    pstmt.setString(4, name);
+		    if (birth != null && !birth.isEmpty()) {
+		        pstmt.setInt(5, Integer.parseInt(birth));
+		    } else {
+		        pstmt.setNull(5, java.sql.Types.INTEGER);
+		    }
+
+		    int result = pstmt.executeUpdate();
+
+		    PrintWriter out = response.getWriter();
+		    try {
+		        out.println("<html>");
+		        out.println("<body>");
+		        if (result > 0) {
+		            out.println("<h2>회원가입이 성공적으로 완료되었습니다.</h2>");
+		            out.println("<a href='/jspStudy/loginServlet.do'>로그인하러 가기</a>");
+		        } else {
+		            out.println("<h2>회원가입에 실패했습니다. 다시 시도해주세요.</h2>");
+		            out.println("<a href='/jspStudy/registerServlet.do'>회원가입 다시하기</a>");
+		        }
+		        out.println("</body>");
+		        out.println("</html>");
+		    } finally {
+		        if (out != null) {
+		            out.close();
+		        }
+		    }
+		} catch (ClassNotFoundException e) {
+		    throw new ServletException("JDBC 드라이버 로드 중 오류 발생: " + e.getMessage());
+		} catch (SQLException e) {
+		    throw new ServletException("회원가입 중 오류 발생: " + e.getMessage());
+		}
+
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		processRequest(request, response);
+	}
+}
