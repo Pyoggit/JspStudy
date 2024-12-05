@@ -25,24 +25,4 @@
     <servlet-name>hello</servlet-name>
     <url-pattern>/hello.do</url-pattern>
   </servlet-mapping>
- <!--  <servlet>
-    <description></description>
-    <display-name>registerServlet</display-name>
-    <servlet-name>registerServlet</servlet-name>
-    <servlet-class>kr.co.dev.login.RegisterServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>registerServlet</servlet-name>
-    <url-pattern>/registerServlet.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>registerLIstServlet</display-name>
-    <servlet-name>registerLIstServlet</servlet-name>
-    <servlet-class>kr.co.dev.login.RegisterLIstServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>registerLIstServlet</servlet-name>
-    <url-pattern>/registerLIstServlet.do</url-pattern>
-  </servlet-mapping> -->
 </web-app>
