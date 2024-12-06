@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*, java.util.*, javax.servlet.http.*" %>
+<%@ page import="java.sql.*, java.util.*" %>
 <%@ page import="java.io.FileReader, java.io.IOException" %>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./login.css">
 </head>
 <body>
-    <form action="loginCheck.jsp" method="post"> <!-- 로그인 검증을 처리할 JSP로 폼 제출 -->
+    <form action="loginCheck.jsp" method="post">
         <table>
             <thead>
                 <tr>
@@ -30,8 +30,8 @@
 
         <footer>
             <hr>
-            <button type="submit">로그인</button> <!-- 로그인 검증 후 환영 페이지로 이동 -->
-            <button type="button" onclick="location.href='signup.jsp'">회원가입</button> <!-- 회원가입 페이지로 이동 -->
+            <button type="submit">로그인</button> 
+            <button type="button" onclick="location.href='signup.jsp'">회원가입</button>
         </footer>
     </form>
 </body>
