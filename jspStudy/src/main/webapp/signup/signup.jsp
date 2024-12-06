@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*, java.util.*" %>
 <%@ page import="java.io.FileReader" %>
 <%@ page import="java.io.IOException" %>
@@ -15,59 +15,64 @@
     <%
         String id = request.getParameter("id");
         String pwd = request.getParameter("pwd");
+        String pwdTest = request.getParameter("pwdtest");
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String birth = request.getParameter("birth");
         String message = "";
+        boolean isSuccess = false;
 
         if (id != null && pwd != null && email != null && name != null) {
-            Connection con = null;
-            PreparedStatement pstmt = null;
+            if (pwdTest != null && !pwd.equals(pwdTest)) {
+                message = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+            } else {
+                Connection con = null;
+                PreparedStatement pstmt = null;
 
-            try {
-                // db.properties 파일 경로 설정
-                String filePath = "C:\\dev\\jspWorkspace\\jspStudy\\src\\main\\resources\\db.properties";
-                Properties pt = new Properties();
-                try (FileReader reader = new FileReader(filePath)) {
-                    pt.load(reader);
-                } catch (IOException e) {
-                    throw new ServletException("db.properties 파일을 찾을 수 없습니다: " + e.getMessage());
-                }
-
-                String url = pt.getProperty("url");
-                String user = pt.getProperty("user");
-                String pw = pt.getProperty("pw");
-
-                // Oracle JDBC 드라이버 로드
-                Class.forName("oracle.jdbc.driver.OracleDriver");
-
-                // 데이터베이스 연결
-                con = DriverManager.getConnection(url, user, pw);
-                pstmt = con.prepareStatement("INSERT INTO SIGNUP (ID, PWD, EMAIL, NAME, BIRTH) VALUES (?, ?, ?, ?, ?)");
-                pstmt.setString(1, id);
-                pstmt.setString(2, pwd);
-                pstmt.setString(3, email);
-                pstmt.setString(4, name);
-                if (birth != null && !birth.isEmpty()) {
-                    pstmt.setInt(5, Integer.parseInt(birth));
-                } else {
-                    pstmt.setNull(5, java.sql.Types.INTEGER);
-                }
-
-                int result = pstmt.executeUpdate();
-                if (result > 0) {
-                    message = "회원가입이 성공적으로 완료되었습니다. 잠시 후 로그인 페이지로 이동합니다.";
-                } else {
-                    message = "회원가입에 실패했습니다. 다시 시도해주세요.";
-                }
-            } catch (Exception e) {
-                message = "회원가입 중 오류 발생: " + e.getMessage();
-            } finally {
                 try {
-                    if (pstmt != null) pstmt.close();
-                    if (con != null) con.close();
-                } catch (SQLException e) {
-                    message = "데이터베이스 연결 닫기 중 오류 발생: " + e.getMessage();
+                    String filePath = "C:\\dev\\jspWorkspace\\jspStudy\\src\\main\\resources\\db.properties";
+                    Properties pt = new Properties();
+                    try (FileReader reader = new FileReader(filePath)) {
+                        pt.load(reader);
+                    } catch (IOException e) {
+                        throw new ServletException("db.properties 파일을 찾을 수 없습니다: " + e.getMessage());
+                    }
+
+                    String url = pt.getProperty("url");
+                    String user = pt.getProperty("user");
+                    String pw = pt.getProperty("pw");
+
+                    Class.forName("oracle.jdbc.driver.OracleDriver");
+                    con = DriverManager.getConnection(url, user, pw);
+                    pstmt = con.prepareStatement("INSERT INTO SIGNUP (ID, PWD, EMAIL, NAME, BIRTH) VALUES (?, ?, ?, ?, ?)");
+                    pstmt.setString(1, id);
+                    pstmt.setString(2, pwd);
+                    pstmt.setString(3, email);
+                    pstmt.setString(4, name);
+                    if (birth != null && !birth.isEmpty() && birth.matches("\\d{8}")) {
+                        pstmt.setInt(5, Integer.parseInt(birth));
+                    } else {
+                        pstmt.setNull(5, java.sql.Types.INTEGER);
+                    }
+
+                    int result = pstmt.executeUpdate();
+                    if (result > 0) {
+                        message = "회원가입이 성공적으로 완료되었습니다. 잠시 후 로그인 페이지로 이동합니다.";
+                        isSuccess = true;
+                    } else {
+                        message = "회원가입에 실패했습니다. 다시 시도해주세요.";
+                    }
+                } catch (Exception e) {
+                    message = "회원가입 처리 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
+                    System.out.println("회원가입 오류: " + e.getMessage()); // 서버에 로그 기록
+                } finally {
+                    try {
+                        if (pstmt != null) pstmt.close();
+                        if (con != null) con.close();
+                    } catch (SQLException e) {
+                        message = "데이터베이스 연결 닫기 중 오류 발생: " + e.getMessage();
+                        System.out.println(message);
+                    }
                 }
             }
         }
@@ -114,7 +119,14 @@
     </form>
 
     <% if (!message.isEmpty()) { %>
-        <p style="color: red;"><%= message %></p>
+        <p style="<%= isSuccess ? "color: green;" : "color: red;" %>"><%= message %></p>
+        <% if (isSuccess) { %>
+            <script>
+                setTimeout(function() {
+                    window.location.href = 'login.jsp';
+                }, 3000);
+            </script>
+        <% } %>
     <% } %>
 </body>
 </html>
