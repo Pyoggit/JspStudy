@@ -13,7 +13,6 @@
 </head>
 <body>
     <%
-        // 사용자가 폼을 제출했을 때만 데이터베이스 작업 수행
         String id = request.getParameter("id");
         String pwd = request.getParameter("pwd");
         String email = request.getParameter("email");
@@ -42,7 +41,7 @@
                 // Oracle JDBC 드라이버 로드
                 Class.forName("oracle.jdbc.driver.OracleDriver");
 
-                // 데이터베이스 연결 및 INSERT 쿼리 실행
+                // 데이터베이스 연결
                 con = DriverManager.getConnection(url, user, pw);
                 pstmt = con.prepareStatement("INSERT INTO SIGNUP (ID, PWD, EMAIL, NAME, BIRTH) VALUES (?, ?, ?, ?, ?)");
                 pstmt.setString(1, id);
@@ -58,8 +57,6 @@
                 int result = pstmt.executeUpdate();
                 if (result > 0) {
                     message = "회원가입이 성공적으로 완료되었습니다. 잠시 후 로그인 페이지로 이동합니다.";
-                    // 5초 후 로그인 페이지로 리다이렉트
-                    out.println("<meta http-equiv='refresh' content='5;url=login.jsp'>");
                 } else {
                     message = "회원가입에 실패했습니다. 다시 시도해주세요.";
                 }
