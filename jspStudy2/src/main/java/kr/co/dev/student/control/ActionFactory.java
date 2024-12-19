@@ -1,6 +1,8 @@
 package kr.co.dev.student.control;
 
 import kr.co.dev.student.action.Action;
+import kr.co.dev.student.action.DeleteFormAction;
+import kr.co.dev.student.action.DeleteProcAction;
 import kr.co.dev.student.action.IdCheckAction;
 import kr.co.dev.student.action.IndexAction;
 import kr.co.dev.student.action.LoginFormAction;
@@ -60,6 +62,12 @@ public class ActionFactory {
 			break;
 		case "/modifyProc.do":
 			action = new ModifyProcAction();
+			break;
+		case "/deleteForm.do":
+			action = new DeleteFormAction();
+			break;
+		case "/deleteProc.do":
+			action = new DeleteProcAction();
 			break;
 			
 
