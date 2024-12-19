@@ -29,8 +29,11 @@ public class ModifyProcAction implements Action {
 			request.getParameter("address1"),
 			request.getParameter("address2"));
 		boolean flag = dao.updateDB(vo);
+		if(flag == true) {
+			session.setAttribute("pass", request.getParameter("pass"));
+		}
 		request.setAttribute("flag", flag);
-		return new ActionForward("/mvcmem/modifyProc.do", false);
+		return new ActionForward("/mvcmem/modifyProc.jsp", false);
 	}
 
 }
